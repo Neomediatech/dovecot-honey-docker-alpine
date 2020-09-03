@@ -1,12 +1,12 @@
-FROM alpine:3.10
+FROM alpine:3.12
 
-ENV DOVECOT_VERSION=2.3.7.2-r0
-ENV BUILD_DATE=2019-08-29
-ENV ALPINE_VERSION=3.10
+ENV DOVECOT_VERSION=2.3.11.3-r1
+ENV BUILD_DATE=2020-08-25
+ENV ALPINE_VERSION=3.12
 
 ENV TZ=Europe/Rome
 
-LABEL maintainer="docker-dario@neomediatech.it" \ 
+LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.version=$DOVECOT_VERSION \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-type=Git \
@@ -17,7 +17,7 @@ RUN apk update && apk upgrade && apk add --no-cache tzdata && cp /usr/share/zone
     apk add --no-cache tini dovecot dovecot-pop3d bash && \
     rm -rf /usr/local/share/doc /usr/local/share/man && \
     rm -rf /etc/dovecot/* && \
-    mkdir -p /var/log/dovecot /var/lib/dovecot && \ 
+    mkdir -p /var/log/dovecot /var/lib/dovecot && \
     chmod 777 /var/log/dovecot
 COPY dovecot.conf users dovecot-ssl.cnf /etc/dovecot/
 RUN openssl req -new -x509 -nodes -days 3650 -config /etc/dovecot/dovecot-ssl.cnf -out /etc/dovecot/server.pem -keyout /etc/dovecot/server.key && \
